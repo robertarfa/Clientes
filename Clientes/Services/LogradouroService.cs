@@ -1,5 +1,8 @@
 ﻿using Clientes.Data;
 using Clientes.Models;
+using Clientes.Models.DTO;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 public class LogradouroService : ILogradouroService
 {
@@ -10,29 +13,55 @@ public class LogradouroService : ILogradouroService
         _context = context;
     }
 
-    public Task<Logradouro> AtualizarLogradouro(int id, Logradouro logradouro)
+    public async Task<Logradouro> AtualizarLogradouro(int id, Logradouro logradouro)
     {
-        throw new NotImplementedException();
+        // Verifica se existe outro cliente com o mesmo email
+        var logradouroExistente = await _context.Logradouros
+            .FirstOrDefaultAsync(c => c.Id != logradouro.Id);
+
+        if (logradouroExistente != null)
+        {
+            throw new Exception("Já existe um cliente cadastrado com este email");
+        }
+
+        _context.Entry(logradouro).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
+        return logradouro;
+
     }
 
-    public Task<Logradouro> CriarLogradouro(Logradouro logradouro)
+    public async Task<Logradouro> CriarLogradouro(Logradouro logradouro)
     {
-        throw new NotImplementedException();
+        _context.Logradouros.Add(logradouro);
+        await _context.SaveChangesAsync();
+
+        return logradouro;
     }
 
-    public Task<IEnumerable<Logradouro>> ListarLogradourosPorCliente(int clienteId)
+    public async Task<IEnumerable<Logradouro>> ListarLogradouros()
     {
-        throw new NotImplementedException();
+        return await _context.Logradouros.ToListAsync();
     }
 
-    public Task<Logradouro> ObterLogradouro(int id)
+    public async Task<Logradouro?> ObterLogradouro(int id)
     {
-        throw new NotImplementedException();
+        var logradouro = await _context.Logradouros.FirstOrDefaultAsync(c => c.Id == id);
+
+        return logradouro;
     }
 
-    public Task<bool> RemoverLogradouro(int id)
+    public async Task<bool> RemoverLogradouro(int id)
     {
-        throw new NotImplementedException();
+        var logradouro = await _context.Logradouros.FindAsync(id);
+        if (logradouro == null)
+        {
+            return false;
+        }
+
+        _context.Logradouros.Remove(logradouro);
+        await _context.SaveChangesAsync();
+
+        return true;
     }
 
 }

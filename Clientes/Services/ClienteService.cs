@@ -77,18 +77,44 @@ public class ClienteService : IClienteService
         .ToListAsync();
     }
 
-    public Task<Cliente> AtualizarCliente(int id, Cliente cliente)
+    public async Task<Cliente> AtualizarCliente(Cliente cliente)
     {
-        throw new NotImplementedException();
+        // Verifica se existe outro cliente com o mesmo email
+        var clienteExistente = await _context.Clientes
+            .FirstOrDefaultAsync(c => c.Email == cliente.Email && c.Id != cliente.Id);
+
+        if (clienteExistente != null)
+        {
+            throw new Exception("Já existe um cliente cadastrado com este email");
+        }
+
+        _context.Entry(cliente).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
+        return cliente;
     }
-    public Task<Cliente> ObterCliente(int id)
+    public async Task<Cliente?> ObterCliente(int id)
     {
-        throw new NotImplementedException();
+        var cliente = await _context.Clientes
+                   .Include(c => c.Logradouros)
+                   .FirstOrDefaultAsync(c => c.Id == id);
+
+        return cliente;
     }
 
-    public Task<bool> RemoverCliente(int id)
+    public async Task<bool> RemoverCliente(int id)
     {
-        throw new NotImplementedException();
+        var cliente = await _context.Clientes.FindAsync(id);
+
+        if (cliente == null)
+        {
+            return false;
+        }
+
+        _context.Clientes.Remove(cliente);
+        await _context.SaveChangesAsync();
+
+       
+        return true;
     }
 
    
