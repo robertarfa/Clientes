@@ -81,7 +81,7 @@ namespace Clientes.Controllers
 
         [Authorize]
         [HttpPut("{id}")]
-        public async Task<IActionResult> AtualizarCliente(int id, [FromForm] ClienteCreateDTO clienteDTO, IFormFile logotipo)
+        public async Task<IActionResult> AtualizarCliente(int id, [FromForm] ClienteUpdateDTO clienteDTO, IFormFile logotipo)
         {
             var cliente = await _clienteService.ObterCliente(id);
             if (cliente == null)

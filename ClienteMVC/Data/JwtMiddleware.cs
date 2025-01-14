@@ -1,4 +1,4 @@
-﻿namespace ClienteMVC
+﻿namespace ClienteMVC.Data
 {
     public class JwtMiddleware
     {
@@ -20,5 +20,15 @@
             await _next(context);
         }
     }
+    //public class TokenManager
+    //{
+    //    private static string _token;
+
+    //    public static string Token
+    //    {
+    //        get => _token;
+    //        set => _token = value;
+    //    }
+    //}
 
 }

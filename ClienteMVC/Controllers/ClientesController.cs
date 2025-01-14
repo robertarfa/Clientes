@@ -41,7 +41,7 @@ namespace ClienteMVC.Controllers
 
         // GET: Clientes/Edit/5
         //[ValidateAntiForgeryToken]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> Edit(int id)
         {
   
