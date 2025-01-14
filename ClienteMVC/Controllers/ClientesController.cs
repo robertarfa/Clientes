@@ -41,7 +41,7 @@ namespace ClienteMVC.Controllers
 
         // GET: Clientes/Edit/5
         //[ValidateAntiForgeryToken]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> Edit(int id)
         {
   
@@ -71,12 +71,7 @@ namespace ClienteMVC.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            if (!User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Login", "Account",
-                    new { returnUrl = $"/Clientes/Delete/{id}" });
-            }
-
+      
             var cliente = await _apiService.GetCliente(id);
             if (cliente == null)
             {
