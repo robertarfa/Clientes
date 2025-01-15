@@ -30,7 +30,7 @@ namespace ClienteMVC.Services
             {
                 for (int i = 0; i < model.Logradouros.Count; i++)
                 {
-                    formData.Add(new StringContent(model.Logradouros[i].Endereco), $"Logradouros[{i}].Endereco");
+                    formData.Add(new StringContent(model.Logradouros[i].Endereco), $"Logradouros[{i}]");
                 }
             }
 
