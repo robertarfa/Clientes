@@ -1,3 +1,5 @@
+Obs: Consulte o Readme https://github.com/robertarfa/Clientes/blob/master/Clientes/Readme.md para executar o projeto.
+
 # Arquitetura da Solução
 
 A arquitetura da solução é composta por duas camadas: o **front-end** e o **back-end**.

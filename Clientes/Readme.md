@@ -26,7 +26,7 @@ Este projeto é uma API de gerenciamento de clientes construída com **ASP.NET C
 
 
 ``` 
-   git clone https://github.com/seu-usuario/seu-repositorio.git
+   git clone https://github.com/robertarfa/Clientes.git
    cd seu-repositorio
    
 ``` 
