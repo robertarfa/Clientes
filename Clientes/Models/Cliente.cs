@@ -15,6 +15,6 @@ namespace Clientes.Models
 
         public byte[] Logotipo { get; set; }
 
-        public ICollection<Logradouro> Logradouros { get; set; } = new List<Logradouro>();
+        public List<Logradouro> Logradouros { get; set; }
     }
 }

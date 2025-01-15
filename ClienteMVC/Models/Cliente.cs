@@ -7,7 +7,7 @@
         public string Email { get; set; }
 
         public string Senha { get; set; }
-        public byte[] Logotipo { get; set; }
+        public IFormFile Logotipo { get; set; }
         public List<Logradouro> Logradouros { get; set; }
     }
 }

@@ -17,9 +17,24 @@ namespace ClienteMVC.Services
 
         public async Task<bool> CreateCliente(Cliente model)
         {
-            var response = await _httpClient.PostAsJsonAsync("api/clientes", model);
-            response.EnsureSuccessStatusCode();
-            var createdCliente = await response.Content.ReadFromJsonAsync<Cliente>();
+
+            var formData = new MultipartFormDataContent();
+            formData.Add(new StringContent(model.Nome), "Nome");
+            formData.Add(new StringContent(model.Email), "Email");
+
+            if (model.Logotipo != null)
+            {
+                var fileContent = new StreamContent(model.Logotipo.OpenReadStream());
+                fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(model.Logotipo.ContentType);
+                formData.Add(fileContent, "logotipo", model.Logotipo.FileName);
+            }
+
+            var response = await _httpClient.PostAsync("api/clientes", formData);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Erro: {response.StatusCode}");
+            }
             return response.IsSuccessStatusCode;
         }
 

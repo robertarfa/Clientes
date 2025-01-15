@@ -42,13 +42,7 @@ namespace Clientes.Controllers
             {
                 Nome = clienteDTO.Nome,
                 Email = clienteDTO.Email,
-                Logradouros = new List<Logradouro>
-        {
-            new Logradouro
-            {
-                Endereco = clienteDTO.Endereco
-            }
-        }
+                Logradouros = clienteDTO.Logradouros.Select(l => new Logradouro { Endereco = l }).ToList()
             };
 
             if (logotipo != null)
@@ -63,7 +57,6 @@ namespace Clientes.Controllers
             try
             {
                 var novoCliente = await _clienteService.CriarCliente(cliente, clienteDTO.Senha);
-              
                 return Ok(novoCliente);
             }
             catch (Exception ex)

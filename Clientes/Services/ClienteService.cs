@@ -41,22 +41,29 @@ public class ClienteService : IClienteService
             throw new Exception("Um cliente com este e-mail já está registrado.");
         }
 
-        // Adiciona o cliente ao contexto
-        _context.Clientes.Add(cliente);
-        await _context.SaveChangesAsync();
-
-        // Cria um novo usuário associado ao cliente
-        var usuario = new Usuario
+        try
         {
-            Email = cliente.Email,
-            SenhaHash = BCrypt.Net.BCrypt.HashPassword(senha),
-            ClienteId = cliente.Id // Associa o usuário ao cliente
-        };
+            // Adiciona o cliente ao contexto
+            _context.Clientes.Add(cliente);
+            await _context.SaveChangesAsync();
 
-        _context.Usuarios.Add(usuario);
-        await _context.SaveChangesAsync();
+            // Cria um novo usuário associado ao cliente
+            var usuario = new Usuario
+            {
+                Email = cliente.Email,
+                SenhaHash = BCrypt.Net.BCrypt.HashPassword(senha),
+                ClienteId = cliente.Id // Associa o usuário ao cliente
+            };
 
-        return cliente;
+            _context.Usuarios.Add(usuario);
+            await _context.SaveChangesAsync();
+
+            return cliente;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Erro ao criar cliente: " + ex.Message);
+        }
     }
 
     public async Task<ActionResult<IEnumerable<ClienteResponseDTO>>> ListarClientes()

@@ -29,18 +29,29 @@ namespace ClienteMVC.Controllers
 
         
         [HttpPost]
-        public async Task<IActionResult> Create(Cliente model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Nome, Email, Senha, Logotipo, Logradouros")]Cliente model)
         {
             if (ModelState.IsValid)
             {
                 await _apiService.CreateCliente(model);
                 return RedirectToAction(nameof(Index));
             }
+            else if (!ModelState.IsValid)
+            {
+                foreach (var state in ModelState)
+                {
+                    foreach (var error in state.Value.Errors)
+                    {
+                        Console.WriteLine($"Erro no campo {state.Key}: {error.ErrorMessage}");
+                    }
+                }
+            }
             return View(model);
         }
 
         // GET: Clientes/Edit/5
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         [Authorize]
         public async Task<IActionResult> Edit(int id)
         {
@@ -56,7 +67,8 @@ namespace ClienteMVC.Controllers
         // POST: Clientes/Edit/5
   
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Edit(int id, ClienteViewModel model)
         {
             if (ModelState.IsValid)
@@ -68,7 +80,8 @@ namespace ClienteMVC.Controllers
         }
 
         // GET: Clientes/Delete/5
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
       
@@ -82,7 +95,8 @@ namespace ClienteMVC.Controllers
 
         // POST: Clientes/Delete/5
         [HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await _apiService.DeleteCliente(id);

@@ -16,6 +16,6 @@ namespace Clientes.Models.DTO
         public string Senha { get; set; }
 
         [Required(ErrorMessage = "O endereço é obrigatório")]
-        public string Endereco { get; set; }
+        public List<string> Logradouros { get; set; }
     }
 }
