@@ -30,7 +30,7 @@ namespace ClienteMVC.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nome, Email, Senha, Logotipo, Logradouros")]Cliente model)
+        public async Task<IActionResult> Create(Cliente model)
         {
             if (ModelState.IsValid)
             {

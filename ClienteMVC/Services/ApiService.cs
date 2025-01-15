@@ -19,9 +19,22 @@ namespace ClienteMVC.Services
         {
 
             var formData = new MultipartFormDataContent();
+
+            // Adiciona os campos simples
             formData.Add(new StringContent(model.Nome), "Nome");
             formData.Add(new StringContent(model.Email), "Email");
+            formData.Add(new StringContent(model.Senha), "Senha");
 
+            // Adiciona os logradouros com índices
+            if (model.Logradouros != null && model.Logradouros.Any())
+            {
+                for (int i = 0; i < model.Logradouros.Count; i++)
+                {
+                    formData.Add(new StringContent(model.Logradouros[i].Endereco), $"Logradouros[{i}].Endereco");
+                }
+            }
+
+            // Adiciona o arquivo (logotipo), se existir
             if (model.Logotipo != null)
             {
                 var fileContent = new StreamContent(model.Logotipo.OpenReadStream());
@@ -29,12 +42,14 @@ namespace ClienteMVC.Services
                 formData.Add(fileContent, "logotipo", model.Logotipo.FileName);
             }
 
+            // Envia a requisição para a API
             var response = await _httpClient.PostAsync("api/clientes", formData);
 
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception($"Erro: {response.StatusCode}");
             }
+
             return response.IsSuccessStatusCode;
         }
 
