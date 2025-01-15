@@ -1,4 +1,5 @@
 ﻿using Clientes.Models;
+using Clientes.Models.DTO;
 using Clientes.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -63,10 +64,10 @@ namespace Clientes.Controllers
         // POST: api/Logradouroes
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult<Logradouro>> PostLogradouro(Logradouro logradouro)
+        public async Task<ActionResult<Logradouro>> PostLogradouro(LogradouroCreateDTO logradouro)
         {
             var result = await _logradouroService.CriarLogradouro(logradouro);
-            return CreatedAtAction("GetLogradouro", new { id = result.Id }, result);
+            return CreatedAtAction("GetLogradouro", new { id = result }, result);
         }
 
         // DELETE: api/Logradouroes/5
@@ -88,4 +89,5 @@ namespace Clientes.Controllers
 
     }
 
+    internal record NewRecord(object Id);
 }

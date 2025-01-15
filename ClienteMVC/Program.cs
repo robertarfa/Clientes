@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor(); 
 
 builder.Services.AddHttpClient<IApiService, ApiService>();
 
@@ -22,6 +23,11 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
+builder.Services.ConfigureApplicationCookie(config =>
+{
+    config.LoginPath = "/Account/Login";
+
+});
 builder.Services.AddDistributedMemoryCache();
 
 var app = builder.Build();
@@ -45,5 +51,7 @@ app.UseSession();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Clientes}/{action=Index}/{id?}");
+
+
 
 app.Run();

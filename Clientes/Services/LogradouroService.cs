@@ -30,9 +30,14 @@ public class LogradouroService : ILogradouroService
 
     }
 
-    public async Task<Logradouro> CriarLogradouro(Logradouro logradouro)
+    public async Task<LogradouroCreateDTO> CriarLogradouro(LogradouroCreateDTO logradouro)
     {
-        _context.Logradouros.Add(logradouro);
+        var newLogradouro = new Logradouro
+        {
+            Endereco = logradouro.Endereco
+        };
+
+        _context.Logradouros.Add(newLogradouro);
         await _context.SaveChangesAsync();
 
         return logradouro;

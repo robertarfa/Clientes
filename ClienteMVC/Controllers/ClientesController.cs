@@ -51,30 +51,43 @@ namespace ClienteMVC.Controllers
         }
 
         // GET: Clientes/Edit/5
-        [ValidateAntiForgeryToken]
-        [Authorize]
+        [HttpGet]
+        //[Authorize]
         public async Task<IActionResult> Edit(int id)
         {
-  
+            // Aguarde o resultado do método assíncrono
             var cliente = await _apiService.GetCliente(id);
             if (cliente == null)
             {
-                return NotFound();
+                return NotFound(); // Retorna 404 se o cliente não for encontrado
             }
-            return View(cliente);
+
+            return View(cliente); // Retorna a View com os dados do cliente
         }
 
         // POST: Clientes/Edit/5
-  
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> Edit(int id, ClienteViewModel model)
+        public async Task<IActionResult> Edit(int id, ClienteUpdateViewModel model)
         {
+            Console.WriteLine("Edit");
+
             if (ModelState.IsValid)
             {
                 await _apiService.UpdateCliente(id, model);
                 return RedirectToAction(nameof(Index));
+            }
+            else if (!ModelState.IsValid)
+            {
+                foreach (var state in ModelState)
+                {
+                    foreach (var error in state.Value.Errors)
+                    {
+                        Console.WriteLine($"Erro no campo {state.Key}: {error.ErrorMessage}");
+                    }
+                }
             }
             return View(model);
         }

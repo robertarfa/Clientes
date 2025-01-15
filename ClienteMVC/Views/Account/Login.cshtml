@@ -11,9 +11,9 @@
                 <h4 class="text-center">Login</h4>
             </div>
             <div class="card-body">
-                <form asp-action="Login" asp-controller="Account" method="post">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
+                <form asp-action="Login" method="post">
+                    @* <div asp-validation-summary="ModelOnly" class="text-danger"></div> *@
+                    <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
                     <div class="form-group mb-3">
                         <label asp-for="Email" class="control-label">Email</label>
                         <input asp-for="Email" class="form-control" placeholder="Digite seu email" />

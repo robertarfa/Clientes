@@ -120,7 +120,7 @@ namespace Clientes.Controllers
 
 
         // GET: api/Clientes/5
-        [Authorize]
+        //[Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<Cliente>> GetCliente(int id)
         {

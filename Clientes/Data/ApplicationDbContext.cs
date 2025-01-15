@@ -26,7 +26,9 @@ namespace Clientes.Data
             .HasOne(l => l.Cliente)
             .WithMany(c => c.Logradouros)
             .HasForeignKey(l => l.ClienteId)
-            .IsRequired();
+            .IsRequired(false);
         }
+
+
     }
 }

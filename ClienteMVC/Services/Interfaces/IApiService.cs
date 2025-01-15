@@ -7,6 +7,6 @@ public interface IApiService
     Task<IEnumerable<Cliente>> GetClientesAsync();
     Task<Cliente> GetCliente(int id);
     Task<bool> CreateCliente(Cliente model);
-    Task<bool> UpdateCliente(int id, ClienteViewModel model);
+    Task<bool> UpdateCliente(int id, ClienteUpdateViewModel model);
     Task<bool> DeleteCliente(int id);
 }

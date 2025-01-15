@@ -8,9 +8,9 @@ namespace Clientes.Models
         public int Id { get; set; }
         public string Endereco { get; set; }
         [JsonIgnore]
-        public int ClienteId { get; set; }
+        public int? ClienteId { get; set; }
         [JsonIgnore]
-        public Cliente Cliente { get; set; }
+        public Cliente? Cliente { get; set; }
 
     }
 }

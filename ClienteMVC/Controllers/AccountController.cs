@@ -12,18 +12,17 @@ namespace ClienteMVC.Controllers
             _apiService = apiService;
         }
 
-        public IActionResult Login()
+      
+        [HttpGet]
+        public IActionResult Login(string returnUrl = null)
         {
+            ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
 
-        //public IActionResult Login(string returnUrl = null)
-        //{
-        //    return View();
-        //}
-
+   
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -31,6 +30,11 @@ namespace ClienteMVC.Controllers
                 if (token != null)
                 {
                     HttpContext.Session.SetString("JWTToken", token);
+
+                    if (!string.IsNullOrEmpty(returnUrl))
+                    {
+                        return LocalRedirect(returnUrl);
+                    }
 
                     return RedirectToAction("Index", "Clientes");
                 }
